@@ -1,0 +1,31 @@
+{
+  "name": "ms_imgur---backend_draco_tep_online_full-time_2021_2",
+  "version": "1.0.0",
+  "description": "## Learning Competencies",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/exponentsoftware/MS_Imgur---backend_Draco_Tep_Online_Full-time_2021_2.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/exponentsoftware/MS_Imgur---backend_Draco_Tep_Online_Full-time_2021_2/issues"
+  },
+  "homepage": "https://github.com/exponentsoftware/MS_Imgur---backend_Draco_Tep_Online_Full-time_2021_2#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.0.12"
+  },
+  "devDependencies": {
+    "dotenv": "^16.0.0",
+    "morgan": "^1.10.0"
+  }
+}
