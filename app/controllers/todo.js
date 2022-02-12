@@ -1,34 +1,37 @@
 const Todo = require('../models/Todo')
-
+const _ = require('lodash')
 // Get all Todos
-exports.getAllTodos = (req, res) => {
-    Todo.find()
-        // .select('name sourceLink _id')
-        .exec()
-        .then(docs => {
-            console.log(docs)
-            const response = {
-                count: docs.length,
-                todos: docs.map(doc => {
-                    return {
-                        username: doc.username,
-                        title: doc.title,
-                        isCompleted: doc.isCompleted,
-                        _id: doc._id
+exports.getAllTodos = async (req, res) => {
+    const { searchByTitle, searchByCategory, sortByCreatedAt } = req.query;
 
-                    }
-                })
-            };
-            res.status(200).json(response)
+    try {
+        let todo = await Todo.find();
 
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                error: err
-            })
-        })
+        if (searchByTitle) {
+            let filteredByTitle = todo.filter(a => _.toLower(a.title.replace(/ /g, "")) == _.toLower(searchByTitle.replace(/ /g, "")));
+            res.status(200).json(filteredByTitle)
+        }
+        else if (searchByCategory) {
+            let filteredByCategory = todo.filter(a => a.category.includes(searchByCategory));
+            res.status(200).json(filteredByCategory)
+        }
+        else if (sortByCreatedAt) {
+            if (sortByCreatedAt == "asc") {
+                todo.sort((a, b) => { return new Date(a.createdAt) - new Date(b.createdAt) })
+                res.status(200).json(todo)
+            }
+            else if (sortByCreatedAt == "desc") {
+                todo.sort((a, b) => { return new Date(b.createdAt) - new Date(a.createdAt) })
+                res.status(200).json(todo)
+            }
+        }
+    }
+    catch (err) {
+        console.log(err)
+        res.status(400).json(err)
+    }
 }
+
 
 // Get Todo by id param
 exports.getTodoById = (req, res) => {
