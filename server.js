@@ -34,6 +34,9 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcome to Todo backend api." });
 });
 
+// sign up api
+app.use('/sign-up', require('./app/routes/signUp'));
+
 // Todos api
 app.use('/todo', require('./app/routes/todo'));
 

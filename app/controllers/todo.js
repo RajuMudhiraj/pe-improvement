@@ -25,6 +25,9 @@ exports.getAllTodos = async (req, res) => {
                 res.status(200).json(todo)
             }
         }
+        else{
+            res.status(200).json(todo)
+        }
     }
     catch (err) {
         console.log(err)
