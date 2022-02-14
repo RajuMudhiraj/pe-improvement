@@ -36,6 +36,7 @@ app.get("/", (req, res) => {
 
 // sign up api
 app.use('/sign-up', require('./app/routes/signUp'));
+app.use('/sign-in', require('./app/routes/signIn'));
 
 // Todos api
 app.use('/todo', require('./app/routes/todo'));
