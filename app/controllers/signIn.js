@@ -13,6 +13,7 @@ exports.signIn = async (req, res) => {
                             email: user.email,
                             username: user.username,
                             roles: user.roles,
+                            userId:user._id,
                         },
                         process.env.JWT_SECRET,
                         {

@@ -24,7 +24,8 @@ const userSchema = mongoose.Schema({
             message: props => `${props.value} is not a valid phone number`
         },
     },
-    roles: { type: Array, }
+    roles: { type: Array },
+
 }, { timestamps: true })
 
 module.exports = mongoose.model('User', userSchema)

@@ -6,6 +6,9 @@ const app = express();
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
 const cors = require('cors')
+const checkAuth = require('./app/middlewares/check-auth')
+const checkAdmin = require('./app/middlewares/check-admin')
+
 
 
 
@@ -40,6 +43,9 @@ app.use('/sign-in', require('./app/routes/signIn'));
 
 // Todos api
 app.use('/todo', require('./app/routes/todo'));
+
+// Todos api for admin
+app.use('/todoAdmin', require('./app/routes/todoAdmin'));
 
 
 // Creating an error and passing through next() if requested router not found

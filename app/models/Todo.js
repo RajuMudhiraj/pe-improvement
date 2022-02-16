@@ -4,7 +4,11 @@ const todoSchema = mongoose.Schema({
     username: {type:String, required: true},
     title:{type:String, required: true},
     isCompleted:{type:Boolean, required:true, default:false},
-    category:{type:Array}
+    category:{type:Array},
+    userId:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'User'
+    }
 },{timestamps:true});
 
 module.exports = mongoose.model('Todo', todoSchema)

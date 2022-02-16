@@ -1,11 +1,14 @@
 const Todo = require('../models/Todo')
 const _ = require('lodash')
+
+
+
 // Get all Todos
 exports.getAllTodos = async (req, res) => {
     const { searchByTitle, searchByCategory, sortByCreatedAt } = req.query;
 
     try {
-        let todo = await Todo.find();
+        let todo = await Todo.find({ userId: req.userData.userId });
 
         if (searchByTitle) {
             let filteredByTitle = todo.filter(a => _.toLower(a.title.replace(/ /g, "")) == _.toLower(searchByTitle.replace(/ /g, "")));
@@ -25,7 +28,7 @@ exports.getAllTodos = async (req, res) => {
                 res.status(200).json(todo)
             }
         }
-        else{
+        else {
             res.status(200).json(todo)
         }
     }
@@ -57,7 +60,9 @@ exports.getTodoById = (req, res) => {
 // post a Todo
 exports.postTodo = (req, res) => {
     const { username, title, isCompleted, category } = req.body;
-    Todo.create({ username, title, isCompleted, category })
+    const { userId } = req.userData;
+    console.log(userId)
+    Todo.create({ username, title, isCompleted, category, userId })
         .then(doc => {
             res.status(201).json(doc)
         }).catch(err => {
