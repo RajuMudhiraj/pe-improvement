@@ -8,7 +8,7 @@ const morgan = require('morgan')
 const cors = require('cors')
 const checkAuth = require('./app/middlewares/check-auth')
 const checkAdmin = require('./app/middlewares/check-admin')
-
+const passport = require('passport')
 
 
 

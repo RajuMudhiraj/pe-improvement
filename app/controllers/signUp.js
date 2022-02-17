@@ -1,27 +1,12 @@
 const bcrypt = require('bcrypt')
 const User = require('../models/User')
-const _ = require('lodash')
-// Get all Todos
+
+// Register a user
 exports.signUp =  (req, res) => {
-    const { username, email, password, phone, roles } = req.body;
-    bcrypt.hash(password, 10, async function (err, hash) {
-        if (err) {
-            res.status(500).json({ Error: err + " Something went wrong while hashing password" })
-        }
-        if (hash) {
-            try {
-                let user = await User.create({ username, email, password:hash, phone });
-
-                res.status(200).json(user)
-
-            }
-            catch (err) {
-                console.log(err)
-                res.status(400).json(err)
-            }
-        }
+    res.json({
+        message:"Signup successful",
+        user: req.user
     })
-
 }
 
 exports.getAllUsers = async (req, res) => {
