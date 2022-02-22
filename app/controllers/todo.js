@@ -8,7 +8,7 @@ exports.getAllTodos = async (req, res) => {
     const { searchByTitle, searchByCategory, sortByCreatedAt } = req.query;
 
     try {
-        let todo = await Todo.find({ userId: req.userData.userId });
+        let todo = await Todo.find({ userId: req.user.id });
 
         if (searchByTitle) {
             let filteredByTitle = todo.filter(a => _.toLower(a.title.replace(/ /g, "")) == _.toLower(searchByTitle.replace(/ /g, "")));

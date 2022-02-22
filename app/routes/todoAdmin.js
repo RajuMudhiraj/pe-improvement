@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const checkAuth = require('../middlewares/check-auth')
 const checkAdmin = require('../middlewares/check-admin')
+const passport = require('passport')
 
 const {
 
@@ -10,7 +11,7 @@ const {
 
 
 // routes for 'admin' role
-router.get('/', checkAdmin, getAllUsersTodos);
+router.get('/', passport.authenticate('jwt', { session: false }), checkAdmin, getAllUsersTodos);
 
 
 module.exports = router;

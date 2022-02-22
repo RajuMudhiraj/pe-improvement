@@ -2,10 +2,9 @@ const jwt = require('jsonwebtoken')
 
 module.exports = (req, res, next) => {
     try {
-        const token = req.headers.authorization.split(" ")[1];
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.userData = decoded
-        if (req.userData.roles.includes("admin")) {
+        console.log(req.user)
+
+        if (req.user.roles.includes("admin")) {
             next()
         }
         else {

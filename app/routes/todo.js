@@ -14,10 +14,10 @@ const {
 
 // routes for 'user' role
 router.post('/', passport.authenticate('jwt', { session: false }), postTodo);
-router.get('/', checkAuth, getAllTodos);
-router.get('/:id', checkAuth, getTodoById);
-router.put('/', checkAuth, updateById);
-router.delete('/:id', checkAuth, deleteById);
+router.get('/',  passport.authenticate('jwt', { session: false }), getAllTodos);
+router.get('/:id', passport.authenticate('jwt', { session: false }), getTodoById);
+router.put('/', passport.authenticate('jwt', { session: false }), updateById);
+router.delete('/:id', passport.authenticate('jwt', { session: false }), deleteById);
 
 // routes for 'admin' role
 // router.get('/admin', checkAdmin, getAllUsersTodos);
