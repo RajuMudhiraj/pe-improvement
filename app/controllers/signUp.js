@@ -1,11 +1,28 @@
-const bcrypt = require('bcrypt')
+const { hashSync, compareSync } = require('bcrypt');
 const User = require('../models/User')
 
 // Register a user
 exports.signUp =  (req, res) => {
-    res.json({
-        message:"Signup successful",
-        user: req.user
+    const user = new User({
+        email: req.body.email,
+        password: hashSync(req.body.password, 10),
+        username: req.body.username
+    })
+    user.save().then(user => {
+        res.send({
+            success: true,
+            message: "User created successfully.",
+            user: {
+                id: user._id,
+                username: user.username
+            }
+        })
+    }).catch(err => {
+        res.send({
+            success: false,
+            message: "Something went wrong",
+            error: err
+        })
     })
 }
 

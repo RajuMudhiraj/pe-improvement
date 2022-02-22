@@ -7,7 +7,7 @@ const {
     getAllUsers
 } = require('../controllers/signUp')
 
-router.post('/', passport.authenticate('signup', {session:false}), signUp);
+router.post('/', signUp);
 router.get('/', getAllUsers);
 
 

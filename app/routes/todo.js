@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const passport = require('passport')
 const checkAuth = require('../middlewares/check-auth')
 const checkAdmin = require('../middlewares/check-admin')
 
@@ -12,7 +13,7 @@ const {
 } = require("../controllers/todo");
 
 // routes for 'user' role
-router.post('/', checkAuth, postTodo);
+router.post('/', passport.authenticate('jwt', { session: false }), postTodo);
 router.get('/', checkAuth, getAllTodos);
 router.get('/:id', checkAuth, getTodoById);
 router.put('/', checkAuth, updateById);

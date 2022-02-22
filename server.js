@@ -10,27 +10,22 @@ const checkAuth = require('./app/middlewares/check-auth')
 const checkAdmin = require('./app/middlewares/check-admin')
 const passport = require('passport')
 
-
-
 // Connecting to mongodb atlas
 const mongoose = require('mongoose')
 try {
 
-  const mongoAtlasUri = "mongodb+srv://" + process.env.MONGO_ATLAS_USER + ":" + process.env.MONGO_ATLAS_PWD + "@cluster0.anqmb.mongodb.net/todo?retryWrites=true&w=majority";
-  mongoose.connect(mongoAtlasUri, { useNewUrlParser: true, useUnifiedTopology: true }, () => console.log('Connected to mongodb atlas'));
+  mongoose.connect('mongodb://localhost:27017/passport-jwt', () => console.log("Connected to local mongodb"));
 }
 catch (err) {
   console.log(err + ' Couldn\'t connect to database')
 }
 
-
-
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(morgan('dev'))
-
 app.use(cors())
-
+app.use(passport.initialize());
+require('./app/config/passport')
 
 // home route
 app.get("/", (req, res) => {
@@ -46,7 +41,6 @@ app.use('/todo', require('./app/routes/todo'));
 
 // Todos api for admin
 app.use('/todoAdmin', require('./app/routes/todoAdmin'));
-
 
 // Creating an error and passing through next() if requested router not found
 app.use((req, res, next) => {
@@ -65,7 +59,6 @@ app.use((error, req, res, next) => {
     }
   })
 });
-
 
 // set port, listen for requests
 const PORT = process.env.PORT;
