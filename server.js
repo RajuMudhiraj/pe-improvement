@@ -9,6 +9,8 @@ const cors = require('cors')
 const checkAuth = require('./app/middlewares/check-auth')
 const checkAdmin = require('./app/middlewares/check-admin')
 const passport = require('passport')
+const { engine } = require('express-handlebars');
+const path = require('path')
 
 // Connecting to mongodb atlas
 const mongoose = require('mongoose')
@@ -24,12 +26,19 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(morgan('dev'))
 app.use(cors())
+
+app.engine('handlebars', engine({ defaultLayout: 'main' }))
+app.set('view engine', 'handlebars');
+app.set('views', './app/views');
+
+
+
 app.use(passport.initialize());
 require('./app/config/passport')
 
 // home route
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to Todo backend api." });
+  res.render('home', {firstname:"test"});
 });
 
 // sign up api

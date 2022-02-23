@@ -2,7 +2,7 @@ const { hashSync, compareSync } = require('bcrypt');
 const User = require('../models/User')
 
 // Register a user
-exports.signUp =  (req, res) => {
+exports.signUp = (req, res) => {
     const user = new User({
         email: req.body.email,
         password: hashSync(req.body.password, 10),
@@ -17,6 +17,7 @@ exports.signUp =  (req, res) => {
                 username: user.username
             }
         })
+
     }).catch(err => {
         res.send({
             success: false,
@@ -25,6 +26,11 @@ exports.signUp =  (req, res) => {
         })
     })
 }
+
+exports.signUpForm = (req, res) => {
+    res.render('registerForm')
+}
+
 
 exports.getAllUsers = async (req, res) => {
     try {

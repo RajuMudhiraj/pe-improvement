@@ -4,10 +4,12 @@ const passport = require('passport')
 
 const {
     signUp,
-    getAllUsers
+    getAllUsers,
+    signUpForm
 } = require('../controllers/signUp')
 
 router.post('/', signUp);
+router.get('/', signUpForm);
 router.get('/', getAllUsers);
 
 
