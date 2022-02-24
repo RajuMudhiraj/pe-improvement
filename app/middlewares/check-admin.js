@@ -1,8 +1,6 @@
-const jwt = require('jsonwebtoken')
 
 module.exports = (req, res, next) => {
     try {
-        console.log(req.user)
 
         if (req.user.roles.includes("admin")) {
             next()

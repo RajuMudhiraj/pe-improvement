@@ -6,11 +6,8 @@ const app = express();
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
 const cors = require('cors')
-const checkAuth = require('./app/middlewares/check-auth')
-const checkAdmin = require('./app/middlewares/check-admin')
 const passport = require('passport')
 const { engine } = require('express-handlebars');
-const path = require('path')
 
 // Connecting to mongodb atlas
 const mongoose = require('mongoose')
@@ -31,25 +28,42 @@ app.engine('handlebars', engine({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars');
 app.set('views', './app/views');
 
-
-
 app.use(passport.initialize());
 require('./app/config/passport')
 
+
+
+// Frontend apis
 // home route
 app.get("/", (req, res) => {
-  res.render('home', {firstname:"test"});
+  res.render('home');
 });
 
-// sign up api
-app.use('/sign-up', require('./app/routes/signUp'));
-app.use('/sign-in', require('./app/routes/signIn'));
+// get register page
+app.get('/registerForm', (req, res) => {
+  res.render('registerForm')
+});
 
-// Todos api
+//get login page
+app.get('/loginForm', (req, res) => {
+  res.render('loginForm')
+});
+
+//get login page
+app.get('/userHome', (req, res) => {
+  res.render('userHome')
+});
+
+
+// Backend Restful apis
+//get individual todos
 app.use('/todo', require('./app/routes/todo'));
 
-// Todos api for admin
+// get all users todos
 app.use('/todoAdmin', require('./app/routes/todoAdmin'));
+
+// get all users todos
+app.use('/users', require('./app/routes/users'));
 
 // Creating an error and passing through next() if requested router not found
 app.use((req, res, next) => {

@@ -4,13 +4,12 @@ const checkAdmin = require('../middlewares/check-admin')
 const passport = require('passport')
 
 const {
-
-    getAllUsersTodos
-} = require("../controllers/todoAdmin");
+    users
+} = require("../controllers/users");
 
 
 // routes for 'admin' role
-router.get('/', passport.authenticate('jwt', { session: false }), checkAdmin, getAllUsersTodos);
+router.get('/', passport.authenticate('jwt', { session: false }), checkAdmin, users);
 
 
 module.exports = router;

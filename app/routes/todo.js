@@ -1,15 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport')
-const checkAuth = require('../middlewares/check-auth')
-const checkAdmin = require('../middlewares/check-admin')
 
 const {
     getAllTodos,
     postTodo,
     getTodoById,
     updateById,
-    deleteById
+    deleteById,
 } = require("../controllers/todo");
 
 // routes for 'user' role

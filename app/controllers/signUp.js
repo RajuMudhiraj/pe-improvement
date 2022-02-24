@@ -1,20 +1,24 @@
-const { hashSync, compareSync } = require('bcrypt');
+const { hashSync } = require('bcrypt');
 const User = require('../models/User')
 
 // Register a user
-exports.signUp = (req, res) => {
+exports.signUp = async (req, res) => {
+    const { email, password } = req.body
+    const checkEsistence = await User.findOne({ email: email })
+    if (checkEsistence) {
+        res.status(200).json({ message: "User already exists" })
+    }
     const user = new User({
-        email: req.body.email,
-        password: hashSync(req.body.password, 10),
-        username: req.body.username
+        email: email,
+        password: hashSync(password, 10),
     })
     user.save().then(user => {
-        res.send({
+        res.status(200).json({
             success: true,
             message: "User created successfully.",
             user: {
                 id: user._id,
-                username: user.username
+                email: user.email
             }
         })
 
@@ -25,10 +29,6 @@ exports.signUp = (req, res) => {
             error: err
         })
     })
-}
-
-exports.signUpForm = (req, res) => {
-    res.render('registerForm')
 }
 
 

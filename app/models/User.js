@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt')
 const { body } = require('express-validator');
 
 const userSchema = mongoose.Schema({
-    username: { type: String, required: true },
+    username: { type: String, },
     password: { type: String },
     email: {
         type: String,
@@ -14,6 +14,7 @@ const userSchema = mongoose.Schema({
             //message to return if validation fails
             message: props => `${props.value} is not a valid email`
         },
+        unique: true
     },
     phone: {
         type: String,

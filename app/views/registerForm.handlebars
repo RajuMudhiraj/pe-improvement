@@ -1,7 +1,45 @@
-    <form action="/sign-up" method='post'>
-        <input type="text" name='username' placeholder="Enter name">
-        <input type="text" name='email' placeholder="Enter email">
-        <input type="password" name='password' placeholder="Enter password">
-        <a href="sign-in">Already a user?</a>
-        <button type="submit">Register</button>
-    </form>
+<input type='email' id='email' placeholder='Enter email' />
+<input type='password' id='password' placeholder='Enter password' />
+<button id='button'>
+  Register
+</button>
+<br />
+<p>
+  Already a member?
+  <a href='sign-in'>
+    Login here
+  </a>
+</p>
+<br />
+<p id='messageHolder'></p>
+
+<script>
+  const email = document.getElementById('email')
+const password = document.getElementById('password')
+const button = document.getElementById("button")
+    button.addEventListener('click', register)
+const messageHolder = document.getElementById('messageHolder')
+
+
+    async function register(){
+            const rawData = await fetch('http://localhost:5000/sign-up', {
+          // Adding method type
+          method: 'POST',
+
+          // Adding body or contents to send
+          body: JSON.stringify({
+            email: email.value,
+            password: password.value,
+          }),
+
+          // Adding headers to the request
+          headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+          },
+        })
+        const json = await rawData.json()
+        if(json.message) {
+            messageHolder.innerText = json.message
+        }
+    }
+</script>

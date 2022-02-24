@@ -1,6 +1,51 @@
-        <form action="/sign-in" method='post'>
-            <input type="text" name='email' placeholder="Enter username">
-            <input type="password" name='password' placeholder="Enter password">
-            <a href="sign-up">New here?</a>
-            <button type="submit">Login</button>
-        </form>
+<input type='email' id='email' placeholder='Enter email' />
+<input type='password' id='password' placeholder='Enter password' />
+<button id='button'>
+  Login
+</button>
+<br />
+<p>
+  Don't have an account?
+  <a href='sign-up'>
+    Register here
+  </a>
+</p>
+<br />
+<p id='messageHolder'></p>
+
+<script>
+  const email = document.getElementById('email')
+    const emailValue = email.value
+    const password = document.getElementById('password')
+    const passwordValue = password.value
+    const button = document.getElementById("button")
+    button.addEventListener('click', login)
+    const messageHolder = document.getElementById('messageHolder')
+
+    async function login(){
+
+        const rawData = await fetch('http://localhost:5000/sign-in', {
+          // Adding method type
+          method: 'POST',
+
+          // Adding body or contents to send
+          body: JSON.stringify({
+            email: email.value,
+            password: password.value,
+          }),
+
+          // Adding headers to the request
+          headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+          },
+        })
+        const json = await rawData.json()
+        if(json.message){
+            messageHolder.innerText = json.message
+        }
+        else if (json.token){
+        sessionStorage.setItem("token", json.token)
+        window.locatioin.href = "http://localhost:5000/todo"
+        }
+    }
+</script>
