@@ -1,1 +1,84 @@
-<h1>Welcome to user home page</h1>
+<script>
+  (async () => {
+  // fetching todo api and creating elements dynamically and appending the response data
+        const rawData = await fetch('http://localhost:5000/todo', {
+          method: 'get',
+          headers: {
+            'Authorization': sessionStorage.getItem('token'),
+            'Content-type': 'application/json; charset=UTF-8',
+          },
+        })
+        // calling .json() method on response
+        const json = await rawData.json()
+
+        // dynamically creating a div with id = container and appending to body
+        const container = document.createElement('div')
+        container.id = "container"
+        document.getElementsByTagName('body')[0].appendChild(container);
+        
+        // dynamically creating a list header
+        const div = document.createElement('h4');
+
+        const span = document.createElement('span');
+        const slNo = document.createTextNode('Sl. No.');
+        span.appendChild(slNo)
+        div.appendChild(span)
+
+        const span2 = document.createElement('span');
+        const title = document.createTextNode('Title');
+        span2.appendChild(title)
+        div.appendChild(span2)
+
+        const span3 = document.createElement('span');
+        const status = document.createTextNode('Status');
+        span3.appendChild(status)
+        div.appendChild(span3)
+
+        const span4 = document.createElement('span');
+        const markItDone = document.createTextNode('Mark it done');
+        span4.appendChild(markItDone)
+        div.appendChild(span4)
+
+        const span5 = document.createElement('span');
+        const delet = document.createTextNode('Delete');
+        span5.appendChild(delet)
+        div.appendChild(span5)
+
+        container.appendChild(div)
+
+        console.log(json)
+
+        json.map((obj, index) => {
+        const todo = document.createElement('div');
+        todo.id = obj._id;
+
+        const span = document.createElement('span');
+        const slNo = document.createTextNode(index+1);
+        span.appendChild(slNo);
+        todo.appendChild(span);
+
+        const span2 = document.createElement('span');
+        const title = document.createTextNode(obj.title);
+        span2.appendChild(title);
+        todo.appendChild(span2);
+
+        const span3 = document.createElement('span');
+        const status = document.createTextNode(obj.isCompleted ? 'done' : 'pending');
+        span3.appendChild(status);
+        todo.appendChild(span3);
+        
+        const button = document.createElement('button');
+        const buttonTextMarkItDone = document.createTextNode('Mark it done');
+        button.append(buttonTextMarkItDone);
+        todo.appendChild(button);
+
+        const button2 = document.createElement('button');
+        const buttonTextDelete = document.createTextNode('Delete');
+        button2.append(buttonTextDelete);
+        todo.appendChild(button2);
+        
+
+        container.appendChild(todo);
+        })        
+  })()
+</script>

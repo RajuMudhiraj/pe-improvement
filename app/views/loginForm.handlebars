@@ -24,7 +24,7 @@
 
     async function login(){
 
-        const rawData = await fetch('http://localhost:5000/sign-in', {
+        const rawData = await fetch('http://localhost:5000/token', {
           // Adding method type
           method: 'POST',
 
@@ -45,7 +45,8 @@
         }
         else if (json.token){
         sessionStorage.setItem("token", json.token)
-        window.locatioin.href = "http://localhost:5000/todo"
-        }
+        window.location.href = "http://localhost:5000/userHome"
+  {{! messageHolder.innerText = "Signed in successfully!" }}
+  }
     }
 </script>

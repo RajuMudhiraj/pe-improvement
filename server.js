@@ -56,6 +56,10 @@ app.get('/userHome', (req, res) => {
 
 
 // Backend Restful apis
+
+//get individual todos
+app.use('/token', require('./app/routes/token'));
+
 //get individual todos
 app.use('/todo', require('./app/routes/todo'));
 

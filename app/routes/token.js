@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const {
-    signIn,
-} = require('../controllers/signIn')
 
-router.post('/', signIn);
+const {
+    token,
+} = require('../controllers/token')
+
+router.post('/', token);
 
 
 module.exports = router;
