@@ -3,9 +3,15 @@ const _ = require('lodash')
 
 // get all individual todos
 exports.getAllTodos = async (req, res) => {
-    const { searchByTitle, searchByCategory, sortByCreatedAt } = req.query;
+    const { searchByTitle, searchByCategory, sortByCreatedAt, page, limit } = req.query;
     try {
-        let todo = await Todo.find({ userId: req.user.id });
+        let todo = await Todo.find({ userId: req.user.id })
+            .limit(limit * 1)
+            .skip((page - 1) * limit)
+            .exec();
+        const count = await Todo.find(({ userId: req.user.id }));
+        const totalCount = count.length;
+        console.log(totalCount, limit,page)
 
         if (searchByTitle) {
             let filteredByTitle = todo.filter(a => _.toLower(a.title.replace(/ /g, "")) == _.toLower(searchByTitle.replace(/ /g, "")));
@@ -27,7 +33,11 @@ exports.getAllTodos = async (req, res) => {
         }
         else {
             console.log(todo)
-            res.status(200).json(todo)
+            res.status(200).json({
+                todo,
+                totalPages: Math.ceil(totalCount / limit),
+                currentPage: page
+            })
         }
     }
     catch (err) {
@@ -38,7 +48,7 @@ exports.getAllTodos = async (req, res) => {
 
 // Get Todo by id param
 exports.getTodoById = (req, res) => {
-    const {id} = req.params;
+    const { id } = req.params;
     Todo.findById(id)
 
         .exec()

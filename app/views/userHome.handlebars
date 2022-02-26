@@ -1,3 +1,7 @@
+<button id='logout'>
+  Logout
+</button>
+<br />
 <script>
   (async () => {
   // fetching todo api and creating elements dynamically and appending the response data
@@ -12,6 +16,7 @@
         const json = await rawData.json()
 
         // dynamically creating a div with id = container and appending to body
+
         const container = document.createElement('div')
         container.id = "container"
         document.getElementsByTagName('body')[0].appendChild(container);
@@ -46,8 +51,6 @@
 
         container.appendChild(div)
 
-        console.log(json)
-
         json.map((obj, index) => {
         const todo = document.createElement('div');
         todo.id = obj._id;
@@ -81,4 +84,12 @@
         container.appendChild(todo);
         })        
   })()
+
+  // Logout button fucntion
+  const logoutBtn = document.getElementById('logout')
+  logoutBtn.addEventListener('click', logout)
+  function logout (){
+    sessionStorage.removeItem('token')
+    window.location.href = "http://localhost:5000/"
+  }
 </script>
