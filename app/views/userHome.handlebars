@@ -2,7 +2,58 @@
   Logout
 </button>
 <br />
+<div id='container'>
+  <div id='filters' style="flex-grow: 1">
+    <input type='text' id="searchText" />
+    <button id="searchBtn">
+      Search
+    </button>
+
+    <br />
+    <p>
+      Sort by Date:
+    </p>
+    <input id="sortAsc" type='radio' id='html' name='fav_language' value='Ascending' />
+    <label for='html'>
+      Asc
+    </label>
+    <br />
+    <input id="sortDesc" type='radio' id='css' name='fav_language' value='Descending' />
+    <label for='css'>
+      Desc
+    </label>
+
+    <p id="categories">Categories:</p>
+    
+  </div>
+
+  <div id='todos' style="flex-grow: 8">
+    <h4>
+      <span>
+        Sl. No.
+      </span>
+      <span>
+        Title
+      </span>
+      <span>
+        Status
+      </span>
+      <span>
+        Mark it done
+      </span>
+      <span>
+        Delete
+      </span>
+    </h4>
+  </div>
+</div>
+
 <script>
+    const searchText = document.getElementById('searchText');
+    const searchBtn = document.getElementById('searchBtn');
+    const sortAsc = document.getElementById('sortAsc');
+    const sortDesc = document.getElementById('sortDesc');
+
   (async () => {
   // fetching todo api and creating elements dynamically and appending the response data
         const rawData = await fetch('http://localhost:5000/todo', {
@@ -15,73 +66,43 @@
         // calling .json() method on response
         const json = await rawData.json()
 
-        // dynamically creating a div with id = container and appending to body
-
-        const container = document.createElement('div')
-        container.id = "container"
-        document.getElementsByTagName('body')[0].appendChild(container);
-        
-        // dynamically creating a list header
-        const div = document.createElement('h4');
-
-        const span = document.createElement('span');
-        const slNo = document.createTextNode('Sl. No.');
-        span.appendChild(slNo)
-        div.appendChild(span)
-
-        const span2 = document.createElement('span');
-        const title = document.createTextNode('Title');
-        span2.appendChild(title)
-        div.appendChild(span2)
-
-        const span3 = document.createElement('span');
-        const status = document.createTextNode('Status');
-        span3.appendChild(status)
-        div.appendChild(span3)
-
-        const span4 = document.createElement('span');
-        const markItDone = document.createTextNode('Mark it done');
-        span4.appendChild(markItDone)
-        div.appendChild(span4)
-
-        const span5 = document.createElement('span');
-        const delet = document.createTextNode('Delete');
-        span5.appendChild(delet)
-        div.appendChild(span5)
-
-        container.appendChild(div)
-
-        json.map((obj, index) => {
+        json.todo.map((obj, index) => {
+          // Dynamically creating div element and adding id = obj._id
         const todo = document.createElement('div');
         todo.id = obj._id;
 
+        // Dynamically creating span element with obj serial no. as text and appending to todo div
         const span = document.createElement('span');
         const slNo = document.createTextNode(index+1);
         span.appendChild(slNo);
         todo.appendChild(span);
 
+        // Dynamically creating span element with obj title  as text and appending to todo div
         const span2 = document.createElement('span');
         const title = document.createTextNode(obj.title);
         span2.appendChild(title);
         todo.appendChild(span2);
 
+        // Dynamically creating span element with obj status  as text and appending to todo div
         const span3 = document.createElement('span');
         const status = document.createTextNode(obj.isCompleted ? 'done' : 'pending');
         span3.appendChild(status);
         todo.appendChild(span3);
         
+        // Dynamically creating button element with Mark it ddone  as text and appending to todo div
         const button = document.createElement('button');
         const buttonTextMarkItDone = document.createTextNode('Mark it done');
-        button.append(buttonTextMarkItDone);
+        button.appendChild(buttonTextMarkItDone);
         todo.appendChild(button);
 
+        // Dynamically creating button element with Delete  as text and appending to todo div
         const button2 = document.createElement('button');
         const buttonTextDelete = document.createTextNode('Delete');
         button2.append(buttonTextDelete);
         todo.appendChild(button2);
         
-
-        container.appendChild(todo);
+        ///Appending the div to todos id
+        document.getElementById('todos').appendChild(todo);
         })        
   })()
 

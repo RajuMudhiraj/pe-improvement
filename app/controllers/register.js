@@ -2,7 +2,7 @@ const { hashSync } = require('bcrypt');
 const User = require('../models/User')
 
 // Register a user
-exports.signUp = async (req, res) => {
+exports.register = async (req, res) => {
     const { email, password } = req.body
     const checkEsistence = await User.findOne({ email: email })
     if (checkEsistence) {
@@ -32,14 +32,4 @@ exports.signUp = async (req, res) => {
 }
 
 
-exports.getAllUsers = async (req, res) => {
-    try {
-        let users = await User.find();
-        res.status(200).json(users)
-    }
-    catch (err) {
-        console.log(err)
-        res.status(400).json(err)
-    }
-}
 

@@ -1,6 +1,7 @@
 const { compareSync } = require('bcrypt');
 const jwt = require('jsonwebtoken')
 const User = require('../models/User')
+const UserActivity = require('../models/UserActivity')
 
 exports.token = async (req, res) => {
     const { email, password } = req.body;
@@ -19,6 +20,18 @@ exports.token = async (req, res) => {
                     }
                 )
                 res.status(200).json({ token: "Bearer " + token })
+
+
+                const date = new Date();
+                const today = new Date(`${date.getFullYear()}, ${date.getMonth() + 1}, ${date.getDate()}`)
+                const activity = await UserActivity.findOne({ createdAt: { $gte: today }, email: email });
+                if (activity) {
+                    console.log(activity)
+                }
+                else {
+                    UserActivity.create({ email: email })
+                }
+
             }
             else {
                 res.status(404).json({ message: "Wrong password." })

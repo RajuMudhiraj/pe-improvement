@@ -56,8 +56,10 @@ app.get('/userHome', (req, res) => {
 
 
 // Backend Restful apis
+// Register
+app.use('/register', require('./app/routes/register'));
 
-//get individual todos
+//Login
 app.use('/token', require('./app/routes/token'));
 
 //get individual todos
@@ -68,6 +70,15 @@ app.use('/todoAdmin', require('./app/routes/todoAdmin'));
 
 // get all users todos
 app.use('/users', require('./app/routes/users'));
+
+// get all users registered today
+app.use('/getUsersRegisteredToday', require('./app/routes/getUsersRegisteredToday'));
+
+// get all users registered today
+app.use('/userActivity', require('./app/routes/userActivity'));
+
+
+
 
 // Creating an error and passing through next() if requested router not found
 app.use((req, res, next) => {

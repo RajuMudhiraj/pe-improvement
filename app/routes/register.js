@@ -4,12 +4,10 @@ const passport = require('passport')
 const checkAdmin = require('../middlewares/check-admin')
 
 const {
-    signUp,
-    getAllUsers,
-} = require('../controllers/signUp')
+    register,
+} = require('../controllers/register')
 
-router.post('/', signUp);
-router.get('/', passport.authenticate('jwt',{session:false}), checkAdmin, getAllUsers);
+router.post('/', register);
 
 
 module.exports = router;
