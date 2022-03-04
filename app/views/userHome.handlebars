@@ -3,9 +3,9 @@
 </button>
 <br />
 <div id='container'>
-  <div id='filters' style="flex-grow: 1">
-    <input type='text' id="searchText" />
-    <button id="searchBtn">
+  <div id='filters' style='flex-grow: 1'>
+    <input type='text' id='searchText' />
+    <button id='searchBtn'>
       Search
     </button>
 
@@ -13,48 +13,52 @@
     <p>
       Sort by Date:
     </p>
-    <input id="sortAsc" type='radio' id='html' name='fav_language' value='Ascending' />
-    <label for='html'>
+    <input id='sortAsc' type='radio' name='fav_language' value='Ascending' />
+    <label for='sortAsc'>
       Asc
     </label>
     <br />
-    <input id="sortDesc" type='radio' id='css' name='fav_language' value='Descending' />
-    <label for='css'>
+    <input id='sortDesc' type='radio' name='fav_language' value='Descending' />
+    <label for='sortDesc'>
       Desc
     </label>
 
-    <p id="categories">Categories:</p>
-    
+    {{! <p id="categories">Categories:</p> }}
   </div>
 
-  <div id='todos' style="flex-grow: 8">
-    <h4>
-      <span>
-        Sl. No.
-      </span>
-      <span>
-        Title
-      </span>
-      <span>
-        Status
-      </span>
-      <span>
-        Mark it done
-      </span>
-      <span>
-        Delete
-      </span>
-    </h4>
+  <div id='todos' style='flex-grow: 8'>
   </div>
 </div>
 
 <script>
+  if(!sessionStorage.getItem('token')){
+    window.location.href = "loginForm"
+  }
+
+    const todos = document.getElementById('todos');
+
     const searchText = document.getElementById('searchText');
     const searchBtn = document.getElementById('searchBtn');
     const sortAsc = document.getElementById('sortAsc');
     const sortDesc = document.getElementById('sortDesc');
 
-  (async () => {
+    searchBtn.addEventListener('click', searchByTitle);
+    async function searchByTitle(){
+          const rawData = await fetch(`http://localhost:5000/todo/?searchByTitle=${searchText.value}`, {
+          method: 'get',
+          headers: {
+            'Authorization': sessionStorage.getItem('token'),
+            'Content-type': 'application/json; charset=UTF-8',
+          },
+          })
+    json = await rawData.json()
+    
+    appendTodos(json)
+
+    }
+
+
+  (async (cb) => {
   // fetching todo api and creating elements dynamically and appending the response data
         const rawData = await fetch('http://localhost:5000/todo', {
           method: 'get',
@@ -65,8 +69,40 @@
         })
         // calling .json() method on response
         const json = await rawData.json()
+        cb(json)
 
-        json.todo.map((obj, index) => {
+             
+  })(appendTodos);
+
+  function appendTodos(json){
+    todos.innerHTML = ""
+    // Dynamically creating and appending todos header
+        const h4 = document.createElement('h4');
+        const span = document.createElement('span');
+        const spanText = document.createTextNode('Sl. No.')
+          span.appendChild(spanText)
+          h4.appendChild(span)
+        const span2 = document.createElement('span')
+          const span2Text = document.createTextNode('Title')
+          span2.appendChild(span2Text)
+          h4.appendChild(span2)          
+        const span3 = document.createElement('span')
+          const span3Text = document.createTextNode('Status')
+          span3.appendChild(span3Text)
+          h4.appendChild(span3)          
+        const span4 = document.createElement('span')
+          const span4Text = document.createTextNode('Mark it done')
+          span4.appendChild(span4Text)
+          h4.appendChild(span4)    
+        const span5 = document.createElement('span')
+          const span5Text = document.createTextNode('Delete')
+          span5.appendChild(span5Text);
+          h4.appendChild(span5)        
+
+        todos.appendChild(h4)
+
+// appending the fetched todos to the html
+  json.todo.map((obj, index) => {
           // Dynamically creating div element and adding id = obj._id
         const todo = document.createElement('div');
         todo.id = obj._id;
@@ -102,9 +138,9 @@
         todo.appendChild(button2);
         
         ///Appending the div to todos id
-        document.getElementById('todos').appendChild(todo);
-        })        
-  })()
+        todos.appendChild(todo);
+        })
+  }
 
   // Logout button fucntion
   const logoutBtn = document.getElementById('logout')
