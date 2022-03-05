@@ -35,7 +35,7 @@ exports.getAllTodos = async (req, res) => {
         //     }
         // }
         // else {
-        console.log(todo)
+        // console.log(todo)
         res.status(200).json({
             todo,
             totalPages: Math.ceil(totalCount / limit),

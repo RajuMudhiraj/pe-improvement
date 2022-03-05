@@ -13,12 +13,12 @@
     <p>
       Sort by Date:
     </p>
-    <input id='sortAsc' type='radio' name='fav_language' value='Ascending' />
+    <input id='sortAsc' type='radio' name='sort' value='Ascending' />
     <label for='sortAsc'>
       Asc
     </label>
     <br />
-    <input id='sortDesc' type='radio' name='fav_language' value='Descending' />
+    <input id='sortDesc' type='radio' name='sort' value='Descending' />
     <label for='sortDesc'>
       Desc
     </label>
@@ -34,13 +34,28 @@
   if(!sessionStorage.getItem('token')){
     window.location.href = "loginForm"
   }
-
+    let fetchedTodos;
     const todos = document.getElementById('todos');
+
+
+  (async (cb) => {
+    // fetching todo api and creating elements dynamically and appending the response data
+        const rawData = await fetch('http://localhost:5000/todo', {
+          method: 'get',
+          headers: {
+            'Authorization': sessionStorage.getItem('token'),
+            'Content-type': 'application/json; charset=UTF-8',
+          },
+        })
+        // calling .json() method on response
+        fetchedTodos = await rawData.json()
+        cb(fetchedTodos)
+     
+  })(appendTodos);
 
     const searchText = document.getElementById('searchText');
     const searchBtn = document.getElementById('searchBtn');
-    const sortAsc = document.getElementById('sortAsc');
-    const sortDesc = document.getElementById('sortDesc');
+    
 
     searchBtn.addEventListener('click', searchByTitle);
     async function searchByTitle(){
@@ -51,28 +66,12 @@
             'Content-type': 'application/json; charset=UTF-8',
           },
           })
-    json = await rawData.json()
+      fetchedTodos = await rawData.json()
     
-    appendTodos(json)
-
+      appendTodos(fetchedTodos)
     }
 
 
-  (async (cb) => {
-  // fetching todo api and creating elements dynamically and appending the response data
-        const rawData = await fetch('http://localhost:5000/todo', {
-          method: 'get',
-          headers: {
-            'Authorization': sessionStorage.getItem('token'),
-            'Content-type': 'application/json; charset=UTF-8',
-          },
-        })
-        // calling .json() method on response
-        const json = await rawData.json()
-        cb(json)
-
-             
-  })(appendTodos);
 
   function appendTodos(json){
     todos.innerHTML = ""
@@ -101,8 +100,8 @@
 
         todos.appendChild(h4)
 
-// appending the fetched todos to the html
-  json.todo.map((obj, index) => {
+    // appending the fetched todos to the html
+    json.todo.map((obj, index) => {
           // Dynamically creating div element and adding id = obj._id
         const todo = document.createElement('div');
         todo.id = obj._id;
@@ -137,10 +136,27 @@
         button2.append(buttonTextDelete);
         todo.appendChild(button2);
         
-        ///Appending the div to todos id
+        // Appending the div to todos id
         todos.appendChild(todo);
-        })
+        
+    })
   }
+
+  // sort by date functionality
+  const sortAsc = document.getElementById('sortAsc')
+        sortAsc.addEventListener('click', (e) => sort(e, appendTodos, fetchedTodos));
+  const sortDesc = document.getElementById('sortDesc')
+        sortDesc.addEventListener('click', (e) => sort(e, appendTodos, fetchedTodos));
+
+       function sort(event, cb, todos){
+            if(event.target.value == "Ascending"){
+                fetchedTodos.todo.sort((a,b) => { return new Date(a.createdAt) - new Date(b.createdAt)})
+            }
+            else {
+                fetchedTodos.todo.sort((a,b) => { return new Date(b.createdAt) - new Date(a.createdAt)})
+            }
+            cb(fetchedTodos)
+        }
 
   // Logout button fucntion
   const logoutBtn = document.getElementById('logout')
