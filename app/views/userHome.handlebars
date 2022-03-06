@@ -31,84 +31,85 @@
 </div>
 
 <script>
-  if(!sessionStorage.getItem('token')){
+  if (!sessionStorage.getItem('token')) {
     window.location.href = "loginForm"
-  }
-    let fetchedTodos;
-    const todos = document.getElementById('todos');
+}
+
+let fetchedTodos;
+const todos = document.getElementById('todos');
 
 
-  (async (cb) => {
+(async (cb) => {
     // fetching todo api and creating elements dynamically and appending the response data
-        const rawData = await fetch('http://localhost:5000/todo', {
-          method: 'get',
-          headers: {
+    const rawData = await fetch('http://localhost:5000/todo', {
+        method: 'get',
+        headers: {
             'Authorization': sessionStorage.getItem('token'),
             'Content-type': 'application/json; charset=UTF-8',
-          },
-        })
-        // calling .json() method on response
-        fetchedTodos = await rawData.json()
-        cb(fetchedTodos)
-     
-  })(appendTodos);
+        },
+    })
+    // calling .json() method on response
+    fetchedTodos = await rawData.json()
+    cb(fetchedTodos)
 
-    const searchText = document.getElementById('searchText');
-    const searchBtn = document.getElementById('searchBtn');
-    
+})(appendTodos);
 
-    searchBtn.addEventListener('click', searchByTitle);
-    async function searchByTitle(){
-          const rawData = await fetch(`http://localhost:5000/todo/?searchByTitle=${searchText.value}`, {
-          method: 'get',
-          headers: {
+const searchText = document.getElementById('searchText');
+const searchBtn = document.getElementById('searchBtn');
+
+
+searchBtn.addEventListener('click', searchByTitle);
+async function searchByTitle() {
+    const rawData = await fetch(`http://localhost:5000/todo/?searchByTitle=${searchText.value}`, {
+        method: 'get',
+        headers: {
             'Authorization': sessionStorage.getItem('token'),
             'Content-type': 'application/json; charset=UTF-8',
-          },
-          })
-      fetchedTodos = await rawData.json()
-    
-      appendTodos(fetchedTodos)
-    }
+        },
+    })
+    fetchedTodos = await rawData.json()
+
+    appendTodos(fetchedTodos)
+}
 
 
-
-  function appendTodos(json){
+function appendTodos(json) {
     todos.innerHTML = ""
     // Dynamically creating and appending todos header
-        const h4 = document.createElement('h4');
-        const span = document.createElement('span');
-        const spanText = document.createTextNode('Sl. No.')
-          span.appendChild(spanText)
-          h4.appendChild(span)
-        const span2 = document.createElement('span')
-          const span2Text = document.createTextNode('Title')
-          span2.appendChild(span2Text)
-          h4.appendChild(span2)          
-        const span3 = document.createElement('span')
-          const span3Text = document.createTextNode('Status')
-          span3.appendChild(span3Text)
-          h4.appendChild(span3)          
-        const span4 = document.createElement('span')
-          const span4Text = document.createTextNode('Mark it done')
-          span4.appendChild(span4Text)
-          h4.appendChild(span4)    
-        const span5 = document.createElement('span')
-          const span5Text = document.createTextNode('Delete')
-          span5.appendChild(span5Text);
-          h4.appendChild(span5)        
+    const h4 = document.createElement('h4');
+    const span = document.createElement('span');
+    const spanText = document.createTextNode('Sl. No.')
+    span.appendChild(spanText)
+    h4.appendChild(span)
+    const span2 = document.createElement('span')
+    const span2Text = document.createTextNode('Title')
+    span2.appendChild(span2Text)
+    h4.appendChild(span2)
+    const span3 = document.createElement('span')
+    const span3Text = document.createTextNode('Status')
+    span3.appendChild(span3Text)
+    h4.appendChild(span3)
 
-        todos.appendChild(h4)
+    const span4 = document.createElement('span')
+    const span4Text = document.createTextNode('Mark it done')
+    span4.appendChild(span4Text)
+    h4.appendChild(span4)
+    const span5 = document.createElement('span')
+    const span5Text = document.createTextNode('Delete')
+    span5.appendChild(span5Text);
+    h4.appendChild(span5)
+
+    todos.appendChild(h4)
 
     // appending the fetched todos to the html
     json.todo.map((obj, index) => {
-          // Dynamically creating div element and adding id = obj._id
+        // Dynamically creating div element and adding id = obj._id
         const todo = document.createElement('div');
         todo.id = obj._id;
 
         // Dynamically creating span element with obj serial no. as text and appending to todo div
         const span = document.createElement('span');
-        const slNo = document.createTextNode(index+1);
+        const slNo = document.createTextNode(index + 1);
         span.appendChild(slNo);
         todo.appendChild(span);
 
@@ -123,46 +124,88 @@
         const status = document.createTextNode(obj.isCompleted ? 'done' : 'pending');
         span3.appendChild(status);
         todo.appendChild(span3);
-        
-        // Dynamically creating button element with Mark it ddone  as text and appending to todo div
-        const button = document.createElement('button');
-        const buttonTextMarkItDone = document.createTextNode('Mark it done');
-        button.appendChild(buttonTextMarkItDone);
-        todo.appendChild(button);
+
+        // Dynamically creating button element with Mark it done  as text and appending to todo div
+        if (obj.isCompleted) {
+            const button = document.createElement('span');
+            const buttonTextMarkItDone = document.createTextNode('');
+            button.appendChild(buttonTextMarkItDone);
+            todo.appendChild(button);
+        }
+        else {
+            const button = document.createElement('button');
+            const buttonTextMarkItDone = document.createTextNode('Mark it done');
+            button.appendChild(buttonTextMarkItDone);
+
+            button.addEventListener('click', (e) => markItDone(e, appendTodos));
+            todo.appendChild(button);
+
+            async function markItDone(event, cb) {
+                const id = event.target.parentNode.id;
+                const rawData = await fetch(`http://localhost:5000/todo`, {
+                    method: 'put',
+                    headers: {
+                        'Authorization': sessionStorage.getItem('token'),
+                        'Content-type': 'application/json; charset=UTF-8',
+                    },
+                    body: JSON.stringify({
+                        id: id,
+                        isCompleted: true
+                    })
+                })
+                  location.reload();
+            }
+        }
 
         // Dynamically creating button element with Delete  as text and appending to todo div
         const button2 = document.createElement('button');
         const buttonTextDelete = document.createTextNode('Delete');
         button2.append(buttonTextDelete);
         todo.appendChild(button2);
-        
+
+            button2.addEventListener('click', (e) => delet(e));
+
+            async function delet(event) {
+                const id = event.target.parentNode.id;
+                const rawData = await fetch(`http://localhost:5000/todo/${id}`, {
+                    method: 'delete',
+                    headers: {
+                        'Authorization': sessionStorage.getItem('token'),
+                        'Content-type': 'application/json; charset=UTF-8',
+                    }
+                })
+                console.log(id)
+                location.reload();
+  }
+
         // Appending the div to todos id
         todos.appendChild(todo);
-        
+
     })
-  }
+}
 
-  // sort by date functionality
-  const sortAsc = document.getElementById('sortAsc')
-        sortAsc.addEventListener('click', (e) => sort(e, appendTodos, fetchedTodos));
-  const sortDesc = document.getElementById('sortDesc')
-        sortDesc.addEventListener('click', (e) => sort(e, appendTodos, fetchedTodos));
+// sort by date functionality
+const sortAsc = document.getElementById('sortAsc')
+sortAsc.addEventListener('click', (e) => sort(e, appendTodos, fetchedTodos));
+const sortDesc = document.getElementById('sortDesc')
+sortDesc.addEventListener('click', (e) => sort(e, appendTodos, fetchedTodos));
 
-       function sort(event, cb, todos){
-            if(event.target.value == "Ascending"){
-                fetchedTodos.todo.sort((a,b) => { return new Date(a.createdAt) - new Date(b.createdAt)})
-            }
-            else {
-                fetchedTodos.todo.sort((a,b) => { return new Date(b.createdAt) - new Date(a.createdAt)})
-            }
-            cb(fetchedTodos)
-        }
+function sort(event, cb) {
+    if (event.target.value == "Ascending") {
+        fetchedTodos.todo.sort((a, b) => { return new Date(a.createdAt) - new Date(b.createdAt) })
+    }
+    else {
+        fetchedTodos.todo.sort((a, b) => { return new Date(b.createdAt) - new Date(a.createdAt) })
+    }
+    cb(fetchedTodos)
+}
 
-  // Logout button fucntion
-  const logoutBtn = document.getElementById('logout')
-  logoutBtn.addEventListener('click', logout)
-  function logout (){
+// Logout button fucntion
+const logoutBtn = document.getElementById('logout')
+logoutBtn.addEventListener('click', logout)
+
+function logout() {
     sessionStorage.removeItem('token')
     window.location.href = "http://localhost:5000/"
-  }
+}
 </script>

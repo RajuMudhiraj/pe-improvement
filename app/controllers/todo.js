@@ -83,8 +83,8 @@ exports.postTodo = (req, res) => {
 
 // update a Todo by Id
 exports.updateById = (req, res) => {
-    const { id, username, title, isCompleted, category } = req.body;
-    Todo.updateOne({ _id: id }, { $set: { username, title, isCompleted, category } })
+    const { id, title, isCompleted, category } = req.body;
+    Todo.updateOne({ _id: id }, { $set: { title, isCompleted, category } })
         .then(doc => {
             res.status(201).json(doc)
         }).catch(err => {
