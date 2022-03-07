@@ -8,6 +8,7 @@ const morgan = require('morgan')
 const cors = require('cors')
 const passport = require('passport')
 const { engine } = require('express-handlebars');
+const path = require('path')
 
 // Connecting to mongodb atlas
 const mongoose = require('mongoose')
@@ -54,8 +55,13 @@ app.get('/userHome', (req, res) => {
   res.render('userHome')
 });
 
+//post todo page
+app.get('/postTodo', (req, res) => {
+  res.render('postTodo')
+});
 
-// Backend Restful apis
+
+// Backend RESTful apis
 // Register
 app.use('/register', require('./app/routes/register'));
 

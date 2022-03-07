@@ -1,0 +1,56 @@
+<label>
+  Title :
+</label>
+<input type='text' id='title' placeholder='Title' />
+<br />
+<br />
+<label>
+  Categories :
+</label>
+<input type='text' id='categories' placeholder='Categories' />
+<br />
+<button id='button'>
+  Post
+</button>
+<br />
+<p>
+  <a href='userHome'>
+    Goto user home
+  </a>
+</p>
+<br />
+<p id='messageHolder'></p>
+
+<script>
+  const title = document.getElementById('title')
+let categories = document.getElementById('categories')
+  categories = categories.value.split(" ")
+
+const button = document.getElementById("button")
+    button.addEventListener('click', postTodo)
+const messageHolder = document.getElementById('messageHolder')
+
+
+    async function postTodo(){
+            const rawData = await fetch('http://localhost:5000/todo', {
+          // Adding method type
+          method: 'POST',
+
+          // Adding body or contents to send
+          body: JSON.stringify({
+            title: title.value,
+            category: categories,
+          }),
+
+          // Adding headers to the request
+          headers: {
+            'Authorization':sessionStorage.getItem('token'),
+            'Content-type': 'application/json; charset=UTF-8',
+          },
+        })
+        const json = await rawData.json()
+        if(json.message) {
+            messageHolder.innerText = json.message
+        }
+    }
+</script>
