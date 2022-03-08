@@ -24,7 +24,7 @@
 <script>
   const title = document.getElementById('title')
 let categories = document.getElementById('categories')
-  categories = categories.value.split(" ")
+  categories = categories.value.split(",")
 
 const button = document.getElementById("button")
     button.addEventListener('click', postTodo)
@@ -49,8 +49,13 @@ const messageHolder = document.getElementById('messageHolder')
           },
         })
         const json = await rawData.json()
+        console.log(json)
         if(json.message) {
             messageHolder.innerText = json.message
+        }
+        else{
+            messageHolder.innerText = "Posted a todo successfully"
+
         }
     }
 </script>
