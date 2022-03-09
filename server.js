@@ -33,57 +33,8 @@ app.use(passport.initialize());
 require('./app/config/passport')
 
 
-
-// Frontend apis
-// home route
-app.get("/", (req, res) => {
-  res.render('home');
-});
-
-// get register page
-app.get('/registerForm', (req, res) => {
-  res.render('registerForm')
-});
-
-//get login page
-app.get('/loginForm', (req, res) => {
-  res.render('loginForm')
-});
-
-//get login page
-app.get('/userHome', (req, res) => {
-  res.render('userHome')
-});
-
-//post todo page
-app.get('/postTodo', (req, res) => {
-  res.render('postTodo')
-});
-
-
-// Backend RESTful apis
-// Register
-app.use('/register', require('./app/routes/register'));
-
-//Login
-app.use('/token', require('./app/routes/token'));
-
-//get individual todos
-app.use('/todo', require('./app/routes/todo'));
-
-// get all users todos
-app.use('/todoAdmin', require('./app/routes/todoAdmin'));
-
-// get all users todos
-app.use('/users', require('./app/routes/users'));
-
-// get all users registered today
-app.use('/getUsersRegisteredToday', require('./app/routes/getUsersRegisteredToday'));
-
-// get all users registered today
-app.use('/userActivity', require('./app/routes/userActivity'));
-
-
+// All apis
+app.use('/', require('./app/routes/index'))
 
 
 // Creating an error and passing through next() if requested router not found
