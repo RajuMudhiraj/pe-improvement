@@ -13,35 +13,14 @@ exports.getAllTodos = async (req, res) => {
             .exec();
 
         // fetching all todos of a user to get actual count of todos
-        const count = await Todo.find(({ userId: req.user.id }));
+        const count = await Todo.find({ userId: req.user.id, title: { $regex: new RegExp(searchByTitle, "i") }, category: { $regex: new RegExp(searchByCategory, "i") } });
         const totalCount = count.length;
 
-        // if (searchByTitle) {
-        //     let filteredByTitle = todo.filter(a => _.toLower(a.title.replace(/ /g, "")) == _.toLower(searchByTitle.replace(/ /g, "")));
-        //     res.status(200).json(filteredByTitle)
-        // }
-        // else if (searchByCategory) {
-        //     let filteredByCategory = todo.filter(a => a.category.includes(searchByCategory));
-        //     res.status(200).json(filteredByCategory)
-        // }
-        // else if (sortByCreatedAt) {
-        //     if (sortByCreatedAt == "asc") {
-        //         todo.sort((a, b) => { return new Date(a.createdAt) - new Date(b.createdAt) })
-        //         res.status(200).json(todo)
-        //     }
-        //     else if (sortByCreatedAt == "desc") {
-        //         todo.sort((a, b) => { return new Date(b.createdAt) - new Date(a.createdAt) })
-        //         res.status(200).json(todo)
-        //     }
-        // }
-        // else {
-        // console.log(todo)
         res.status(200).json({
             todo,
             totalPages: Math.ceil(totalCount / limit),
             currentPage: Number(page)
         })
-        // }
     }
     catch (err) {
         console.log(err)

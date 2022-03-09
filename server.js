@@ -9,6 +9,8 @@ const cors = require('cors')
 const passport = require('passport')
 const { engine } = require('express-handlebars');
 const path = require('path')
+const swaggerUI = require('swagger-ui-express');
+const swaggerJsDoc = require('swagger-jsdoc')
 
 // Connecting to mongodb atlas
 const mongoose = require('mongoose')
@@ -31,6 +33,27 @@ app.set('views', './app/views');
 
 app.use(passport.initialize());
 require('./app/config/passport')
+
+// swagger ui setup
+const options = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "Todo API",
+      version: "1.0.0",
+      description: "Api documentation"
+    },
+    servers: [
+      {
+        url: "http://localhost:5000"
+      }
+    ],
+  },
+  apis: ['../app/controllers/*.js']
+}
+
+const specs = swaggerJsDoc(options)
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs))
 
 
 // All apis
