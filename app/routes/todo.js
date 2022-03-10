@@ -20,14 +20,46 @@ const {
  *       required:
  *         - title
  *       properties:
- *         id:
+ *         _id:
  *           type: string
  *           description: The auto generated id of the todo
  *         title:
  *           type: string
  *           description: The todo title
+ *         username:
+ *           type: string
+ *           description: The auto generated username
+ *         isCompleted:
+ *           type: boolean
+ *           description: The auto generated boolean
+ *         category:
+ *           type: array
+ *           description: The categories array
+ *         userId:
+ *           type: string
+ *           description: The auto generated user Id
+ *         createdAt:
+ *           type: string
+ *           description: The auto generated date string
+ *         updatedAt:
+ *           type: string
+ *           description: The auto generated date string
+ *         __v:
+ *           type: number
+ *           description: The auto generated version number
  *       example:
- *         title: test 
+ *         _id: 621600c9d18d6205ec5aa14a
+ *         username: new user
+ *         title: test
+ *         isCompleted: false
+ *         category: 
+ *           - work
+ *           - project
+ *         userId: 62152795162439d0dc7742cb
+ *         createdAt: 2022-02-23T09:39:21.641Z
+ *         updatedAt: 2022-02-23T09:39:21.641Z
+ *         __v: 0
+ *         
  */
 
 // Todos tag for grouping all todo managing apis
@@ -65,7 +97,7 @@ const {
 */
 
 
-// routes for 'user' role
+// Create a new todo
 router.post('/', passport.authenticate('jwt', { session: false }), postTodo);
 
 // Swagger documentation for /todo get method.
@@ -88,9 +120,74 @@ router.post('/', passport.authenticate('jwt', { session: false }), postTodo);
  *                 $ref: '#/components/schemas/Todo'
  */
 
+// Get todos
 router.get('/', passport.authenticate('jwt', { session: false }), getAllTodos);
+
+// Swagger documentation for get method of /todo/{id} .
+/**
+ * @swagger
+ * /todo/{id}:
+ *   get:
+ *     summary: Returns a todo which matches the id
+ *     tags: [Todo]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The todo id
+ *     responses:
+ *       200:
+ *         description: A todo which matches the id
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Todo'
+ */
+
+// Get todo by id
 router.get('/:id', passport.authenticate('jwt', { session: false }), getTodoById);
-router.put('/', passport.authenticate('jwt', { session: false }), updateById);
+
+// Swagger documentation for put method of /todo/{id} .
+/**
+ * @swagger
+ * /todo/{id}:
+ *   put:
+ *     summary: Update the todo by the id
+ *     tags: [Todo]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The todo id
+ *     requestBody:
+ *       required: true
+ *       content: 
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Todo'
+ *     responses:
+ *       200:
+ *         description: A todo which matches the id
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Todo'
+ */
+
+// Update by id
+router.put('/:id', passport.authenticate('jwt', { session: false }), updateById);
 router.delete('/:id', passport.authenticate('jwt', { session: false }), deleteById);
 
 
