@@ -10,6 +10,7 @@ const {
     deleteById,
 } = require("../controllers/todo");
 
+// Swagger documentation for Todo Schema.
 /**
  * @swagger
  * components:
@@ -26,15 +27,54 @@ const {
  *           type: string
  *           description: The todo title
  *       example:
- *         id: d5ae5
  *         title: test 
  */
 
+// Todos tag for grouping all todo managing apis
+/**
+ * @swagger
+ * tags:
+ *   name: Todo
+ *   description: The Todos managing apis
+ */
+
+// Swagger documentation for /todo post method.
+/**
+* @swagger
+* /todo:
+*   post:
+*     summary: Create a todo
+*     tags: [Todo]
+*     security:
+*       - bearerAuth: []
+*     requestBody:
+*       required: true
+*       content:
+*         application/json:
+*           schema:
+*             $ref: '#/components/schemas/Todo'
+*     responses:
+*       200:
+*         description: The list of the todos
+*         content:
+*           application/json:
+*             schema:
+*               type: array
+*               items:
+*                 $ref: '#/components/schemas/Todo'
+*/
+
+
+// routes for 'user' role
+router.post('/', passport.authenticate('jwt', { session: false }), postTodo);
+
+// Swagger documentation for /todo get method.
 /**
  * @swagger
  * /todo:
  *   get:
  *     summary: Returns the list of all the todos
+ *     tags: [Todo]
  *     security:
  *       - bearerAuth: []
  *     responses:
@@ -48,15 +88,12 @@ const {
  *                 $ref: '#/components/schemas/Todo'
  */
 
-// routes for 'user' role
-router.post('/', passport.authenticate('jwt', { session: false }), postTodo);
 router.get('/', passport.authenticate('jwt', { session: false }), getAllTodos);
 router.get('/:id', passport.authenticate('jwt', { session: false }), getTodoById);
 router.put('/', passport.authenticate('jwt', { session: false }), updateById);
 router.delete('/:id', passport.authenticate('jwt', { session: false }), deleteById);
 
-// routes for 'admin' role
-// router.get('/admin', checkAdmin, getAllUsersTodos);
+
 
 
 module.exports = router;

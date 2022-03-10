@@ -49,10 +49,10 @@ exports.getTodoById = (req, res) => {
 
 // post a Todo
 exports.postTodo = (req, res) => {
-    const { title, isCompleted, category } = req.body;
+    const { title, category } = req.body;
     const { username, _id } = req.user;
 
-    Todo.create({ username, title, isCompleted, category, userId: _id })
+    Todo.create({ username, title, category, userId: _id })
         .then(doc => {
             res.status(201).json(doc)
         }).catch(err => {
