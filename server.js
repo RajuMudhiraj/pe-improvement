@@ -45,11 +45,11 @@ const options = {
     },
     servers: [
       {
-        url: "http://localhost:5000"
+        url: "http://localhost:5000/"
       }
     ],
   },
-  apis: ['../app/controllers/*.js']
+  apis: ["./app/routes/*.js"],
 }
 
 const specs = swaggerJsDoc(options)

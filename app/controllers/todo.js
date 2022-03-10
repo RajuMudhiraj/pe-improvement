@@ -1,6 +1,7 @@
 const Todo = require('../models/Todo')
 const _ = require('lodash')
 
+
 // get all todos of a user
 exports.getAllTodos = async (req, res) => {
     //destructuring queries
