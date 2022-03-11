@@ -188,6 +188,35 @@ router.get('/:id', passport.authenticate('jwt', { session: false }), getTodoById
 
 // Update by id
 router.put('/:id', passport.authenticate('jwt', { session: false }), updateById);
+
+// Swagger documentation for delete method of /todo/{id} .
+/**
+ * @swagger
+ * /todo/{id}:
+ *   delete:
+ *     summary: Delete the todo by the id
+ *     tags: [Todo]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The todo id
+ *     responses:
+ *       200:
+ *         description: Acknowledgement of todo deletion
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Todo'
+ */
+
+// Delete by id
 router.delete('/:id', passport.authenticate('jwt', { session: false }), deleteById);
 
 
