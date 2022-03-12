@@ -5,7 +5,7 @@ const _ = require('lodash')
 // get all todos of a user
 exports.getAllTodos = async (req, res) => {
     //destructuring queries
-    const { searchByTitle, searchByCategory, sortByCreatedAt, page, limit } = req.query;
+    const { searchByTitle, searchByCategory, page, limit } = req.query;
     try {
         // find all todos of a user
         let todo = await Todo.find({ userId: req.user.id, title: { $regex: new RegExp(searchByTitle, "i") }, category: { $regex: new RegExp(searchByCategory, "i") } })
@@ -64,9 +64,11 @@ exports.postTodo = (req, res) => {
 // update a Todo by Id
 exports.updateById = (req, res) => {
     const { id } = req.params;
+    console.log(id)
     const { title, isCompleted, category } = req.body;
     Todo.updateOne({ _id: id }, { $set: { title, isCompleted, category } })
         .then(doc => {
+            console.log(doc)
             res.status(201).json(doc)
         }).catch(err => {
             res.status(404).json(err)

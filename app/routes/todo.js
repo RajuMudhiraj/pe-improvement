@@ -109,6 +109,27 @@ router.post('/', passport.authenticate('jwt', { session: false }), postTodo);
  *     tags: [Todo]
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: searchByTitle
+ *         schema:
+ *           type: string
+ *         description: Search the todo by title
+ *       - in: query
+ *         name: searchByCategory
+ *         schema:
+ *           type: string
+ *         description: Search the todo by Category
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: number
+ *         description: Enter a page number (to get paginated results)
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: number
+ *         description: Enter a limit (to get paginated results)
  *     responses:
  *       200:
  *         description: The list of the todos

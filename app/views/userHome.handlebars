@@ -149,14 +149,14 @@ function appendTodos(json) {
 
             async function markItDone(event, cb) {
                 const id = event.target.parentNode.id;
-                const rawData = await fetch(`http://localhost:5000/todo`, {
+                console.log(id)
+                const rawData = await fetch(`http://localhost:5000/todo/${id}`, {
                     method: 'put',
                     headers: {
                         'Authorization': sessionStorage.getItem('token'),
                         'Content-type': 'application/json; charset=UTF-8',
                     },
                     body: JSON.stringify({
-                        id: id,
                         isCompleted: true
                     })
                 })
@@ -181,8 +181,7 @@ function appendTodos(json) {
                         'Content-type': 'application/json; charset=UTF-8',
                     }
                 })
-                console.log(id)
-                location.reload();
+              location.reload();
   }
 
         // Appending the div to todos id

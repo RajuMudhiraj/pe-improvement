@@ -19,10 +19,11 @@ const password = document.getElementById('password')
 const button = document.getElementById("button")
     button.addEventListener('click', register)
 const messageHolder = document.getElementById('messageHolder')
+messageHolder.style.color = 'red'
 
 
     async function register(){
-            const rawData = await fetch('http://localhost:5000/sign-up', {
+            const rawData = await fetch('http://localhost:5000/register', {
           // Adding method type
           method: 'POST',
 
