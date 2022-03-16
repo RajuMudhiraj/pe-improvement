@@ -24,10 +24,8 @@ const {
 *         description: Returns a JWT
 *         content:
 *           application/json:
-*             schema:
-*               type: array
-*               items:
-*                 $ref: '#/components/schemas/User'
+*             example:
+*               token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImlkIjoiNjIyYzQzZjZlMzc1NThlMzJhZDk2YjU3IiwiaWF0IjoxNjQ3NDUyNTEyLCJleHAiOjE2NDc1Mzg5MTJ9.E4gYxOZuXS7AfZphRNHDTqfLov5S-GkvLyq7AH2Iq18
 */
 
 router.post('/', token);
