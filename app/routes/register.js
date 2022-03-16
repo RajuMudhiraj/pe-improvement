@@ -31,7 +31,7 @@ const {
  *                
  */
 
-// Todos tag for grouping all User managing apis
+// User tag for grouping all User managing apis
 /**
  * @swagger
  * tags:
