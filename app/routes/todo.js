@@ -64,7 +64,6 @@ const {
 *                 $ref: '#/components/schemas/Todo'
 *             example:
 *               _id: 621600c9d18d6205ec5aa14a
-*               username: new user
 *               title: test
 *               isCompleted: false
 *               category: 
