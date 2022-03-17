@@ -20,46 +20,14 @@ const {
  *       required:
  *         - title
  *       properties:
- *         _id:
- *           type: string
- *           description: The auto generated id of the todo
  *         title:
  *           type: string
  *           description: The todo title
- *         username:
- *           type: string
- *           description: The auto generated username
- *         isCompleted:
- *           type: boolean
- *           description: The auto generated boolean
+ *           example: The work to do tomarrow
  *         category:
  *           type: array
  *           description: The categories array
- *         userId:
- *           type: string
- *           description: The auto generated user Id
- *         createdAt:
- *           type: string
- *           description: The auto generated date string
- *         updatedAt:
- *           type: string
- *           description: The auto generated date string
- *         __v:
- *           type: number
- *           description: The auto generated version number
- *       example:
- *         _id: 621600c9d18d6205ec5aa14a
- *         username: new user
- *         title: test
- *         isCompleted: false
- *         category: 
- *           - work
- *           - project
- *         userId: 62152795162439d0dc7742cb
- *         createdAt: 2022-02-23T09:39:21.641Z
- *         updatedAt: 2022-02-23T09:39:21.641Z
- *         __v: 0
- *         
+ *           example: [work, office]
  */
 
 // Todos tag for grouping all todo managing apis
@@ -86,7 +54,7 @@ const {
 *           schema:
 *             $ref: '#/components/schemas/Todo'
 *     responses:
-*       200:
+*       201:
 *         description: The list of the todos
 *         content:
 *           application/json:
@@ -94,6 +62,18 @@ const {
 *               type: array
 *               items:
 *                 $ref: '#/components/schemas/Todo'
+*             example:
+*               _id: 621600c9d18d6205ec5aa14a
+*               username: new user
+*               title: test
+*               isCompleted: false
+*               category: 
+*                 - work
+*                 - project
+*               userId: 62152795162439d0dc7742cb
+*               createdAt: 2022-02-23T09:39:21.641Z
+*               updatedAt: 2022-02-23T09:39:21.641Z
+*               __v: 0
 */
 
 
