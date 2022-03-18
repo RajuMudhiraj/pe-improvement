@@ -34,14 +34,23 @@ exports.token = async (req, res) => {
 
             }
             else {
-                res.status(404).json({ message: "Wrong password." })
+                res.status(400).json({
+                    successs: false,
+                    message: "Wrong password."
+                })
             }
         }
         else {
-            res.status(404).json({ message: "User not registered" })
+            res.status(400).json({
+                successs: false,
+                message: "User not registered"
+            })
         }
     }
     catch (err) {
-        res.status(500).json({ Error: err + "" })
+        res.status(400).json({
+            successs: false,
+            message: err.message
+        })
     }
 }
