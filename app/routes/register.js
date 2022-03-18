@@ -54,13 +54,29 @@ const {
 *             $ref: '#/components/schemas/User'
 *     responses:
 *       200:
-*         description: The response of new user registered
+*         description: The response information of existing User.
 *         content:
 *           application/json:
-*             schema:
-*               type: array
-*               items:
-*                 $ref: '#/components/schemas/User'
+*             example:
+*               success: false
+*               message: User already exists  
+*       201:
+*         description: The response user created.
+*         content:
+*           application/json:
+*             example:
+*               success: true
+*               message: User created successfully.
+*               user:
+*                 id: 6234ac75ec0fbb40272d564b
+*                 email: test1@gmail.com   
+*       400:
+*         description: Error message.
+*         content:
+*           application/json:
+*             example:
+*               success: false
+*               message: "User validation failed: email: test2gmail.com is not a valid email"
 */
 router.post('/', register);
 
