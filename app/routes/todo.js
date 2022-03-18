@@ -73,6 +73,13 @@ const {
 *               createdAt: 2022-02-23T09:39:21.641Z
 *               updatedAt: 2022-02-23T09:39:21.641Z
 *               __v: 0
+*       400:
+*         description: Returns error message
+*         content:
+*           application/json:
+*             example:
+*               success: false
+*               message: Error message
 */
 
 
