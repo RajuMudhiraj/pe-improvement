@@ -261,14 +261,19 @@ router.put('/:id', passport.authenticate('jwt', { session: false }), updateById)
  *         required: true
  *         description: The todo id
  *     responses:
- *       200:
- *         description: Acknowledgement of todo deletion
+ *       201:
+ *         description: Acknowledgement of of update
  *         content:
  *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Todo'
+ *             example:
+ *               deletedCount: 1
+ *       400:
+ *         description: Error message.
+ *         content:
+ *           application/json:
+ *             example:
+ *               success: false
+ *               message: Error message
  */
 
 // Delete by id
