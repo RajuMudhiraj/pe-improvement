@@ -76,7 +76,7 @@ const {
 *           application/json:
 *             example:
 *               success: false
-*               message: "User validation failed: email: test2gmail.com is not a valid email"
+*               message: Error message
 */
 router.post('/', register);
 
