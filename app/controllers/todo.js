@@ -78,7 +78,10 @@ exports.updateById = (req, res) => {
             console.log(doc)
             res.status(201).json(doc)
         }).catch(err => {
-            res.status(404).json(err)
+            res.status(400).json({
+                success: false,
+                message: err.message
+            })
         })
 }
 

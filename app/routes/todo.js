@@ -222,14 +222,23 @@ router.get('/:id', passport.authenticate('jwt', { session: false }), getTodoById
  *           schema:
  *             $ref: '#/components/schemas/Todo'
  *     responses:
- *       200:
- *         description: A todo which matches the id
+ *       201:
+ *         description: Acknowledgement of of update
  *         content:
  *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Todo'
+ *             example:
+ *               acknowledged: true
+ *               modifiedCount: 1
+ *               upsertedId: null
+ *               upsertedCount: 0 
+ *               matchedCount: 1
+ *       400:
+ *         description: Error message.
+ *         content:
+ *           application/json:
+ *             example:
+ *               success: false
+ *               message: Error message
  */
 
 // Update by id
