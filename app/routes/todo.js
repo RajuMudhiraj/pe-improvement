@@ -173,13 +173,27 @@ router.get('/', passport.authenticate('jwt', { session: false }), getAllTodos);
  *         description: The todo id
  *     responses:
  *       200:
- *         description: A todo which matches the id
+ *         description: get todo by id
  *         content:
  *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Todo'
+ *             example:
+ *               _id: 621600c9d18d6205ec5aa14a
+ *               title: test
+ *               isCompleted: false
+ *               category: 
+ *                 - work
+ *                 - project
+ *               userId: 62152795162439d0dc7742cb
+ *               createdAt: 2022-02-23T09:39:21.641Z
+ *               updatedAt: 2022-02-23T09:39:21.641Z
+ *               __v: 0
+ *       400:
+ *         description: Error message.
+ *         content:
+ *           application/json:
+ *             example:
+ *               success: false
+ *               message: Error message
  */
 
 // Get todo by id
