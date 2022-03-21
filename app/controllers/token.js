@@ -6,12 +6,13 @@ const UserActivity = require('../models/UserActivity')
 exports.token = async (req, res) => {
     const { email, password } = req.body;
     try {
-        const user = await User.findOne({ email })
+        const user = await User.findOne({ email: email })
+        console.log(user)
         if (user) {
             if (compareSync(password, user.password)) {
                 const token = jwt.sign({
                     email: user.email,
-                    username: user.username,
+                    roles: user.roles,
                     id: user._id,
                 },
                     process.env.JWT_SECRET,
@@ -26,7 +27,7 @@ exports.token = async (req, res) => {
                 const today = new Date(`${date.getFullYear()}, ${date.getMonth() + 1}, ${date.getDate()}`)
                 const activity = await UserActivity.findOne({ createdAt: { $gte: today }, email: email });
                 if (activity) {
-                    console.log(activity)
+                    // console.log(activity)
                 }
                 else {
                     UserActivity.create({ email: email })

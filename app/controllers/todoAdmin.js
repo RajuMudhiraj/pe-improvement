@@ -4,7 +4,7 @@ const _ = require('lodash')
 // Get all users Todos
 exports.getAllUsersTodos = async (req, res) => {
     const { searchByTitle, searchByCategory, sortByCreatedAt } = req.query;
-
+    console.log(req.user)
     try {
         let todo = await Todo.find();
 
@@ -32,7 +32,6 @@ exports.getAllUsersTodos = async (req, res) => {
 
     }
     catch (err) {
-        console.log(err)
         res.status(400).json(`Error:"Test", ${err}`)
     }
 
