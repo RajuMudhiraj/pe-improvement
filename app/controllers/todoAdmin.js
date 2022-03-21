@@ -7,20 +7,24 @@ exports.getAllUsersTodos = async (req, res) => {
     console.log(req.user)
     try {
         let todo = await Todo.find();
-
+        // SearchByTitle
         if (searchByTitle) {
             let filteredByTitle = todo.filter(a => _.toLower(a.title.replace(/ /g, "")) == _.toLower(searchByTitle.replace(/ /g, "")));
             res.status(200).json(filteredByTitle)
         }
+        // Search By Category
         else if (searchByCategory) {
             let filteredByCategory = todo.filter(a => a.category.includes(searchByCategory));
             res.status(200).json(filteredByCategory)
         }
+        // Sort By CreatedAt Asc
         else if (sortByCreatedAt) {
             if (sortByCreatedAt == "asc") {
                 todo.sort((a, b) => { return new Date(a.createdAt) - new Date(b.createdAt) })
                 res.status(200).json(todo)
             }
+            // Sort By CreatedAt Desc
+
             else if (sortByCreatedAt == "desc") {
                 todo.sort((a, b) => { return new Date(b.createdAt) - new Date(a.createdAt) })
                 res.status(200).json(todo)
