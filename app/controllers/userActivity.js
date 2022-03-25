@@ -35,7 +35,7 @@ exports.thisWeek = async (req, res) => {
 // Get activity of last 30 days
 exports.thisMonth = async (req, res) => {
     try {
-        let activity = await UserActivity.find({ createdAt: { $gte: last30thDay } });
+        let activity = await UserActivity.find({ createdAt: { $gte: last30thDay } }).distinct('email');
 
         res.status(200).json(activity)
     }
