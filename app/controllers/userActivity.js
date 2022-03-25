@@ -22,7 +22,7 @@ exports.thisDay = async (req, res) => {
 // Get activity of last seven days
 exports.thisWeek = async (req, res) => {
     try {
-        let activity = await UserActivity.find({ createdAt: { $gte: last7thDay } });
+        let activity = await UserActivity.find({ createdAt: { $gte: last7thDay } }).distinct('email');
 
         res.status(200).json(activity)
     }
