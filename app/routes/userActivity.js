@@ -57,12 +57,8 @@ router.get('/thisDay', passport.authenticate('jwt', { session: false }), thisDay
  *         content:
  *           application/json:
  *             example:
- *               -
- *                 _id: 621600c9d18d6205ec5aa14a
- *                 email: "email@gmail.com"
- *                 createdAt: 2022-02-23T09:39:21.641Z
- *                 updatedAt: 2022-02-23T09:39:21.641Z
- *                 __v: 0
+ *               - test@gmail.com
+ *               - email@gmail.com
  *       400:
  *         description: Error message.
  *         content:
