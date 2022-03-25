@@ -68,6 +68,32 @@ router.get('/thisDay', passport.authenticate('jwt', { session: false }), thisDay
  *               message: Error message
  */
 router.get('/thisWeek', passport.authenticate('jwt', { session: false }), thisWeek);
+
+// Swagger documentation for get method of /userActivity/thisWeek
+/**
+ * @swagger
+ * /userActivity/thisMonth:
+ *   get:
+ *     summary: Returns a list of this month's active users.
+ *     tags: [User]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: this month's active users
+ *         content:
+ *           application/json:
+ *             example:
+ *               - test@gmail.com
+ *               - email@gmail.com
+ *       400:
+ *         description: Error message.
+ *         content:
+ *           application/json:
+ *             example:
+ *               success: false
+ *               message: Error message
+ */
 router.get('/thisMonth', passport.authenticate('jwt', { session: false }), thisMonth);
 
 
